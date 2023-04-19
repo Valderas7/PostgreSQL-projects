@@ -90,8 +90,8 @@ ALTER SEQUENCE public.galaxy_galaxy_id_seq OWNED BY public.galaxy.galaxy_id;
 CREATE TABLE public.moon (
     moon_id integer NOT NULL,
     name character varying(25) NOT NULL,
-    age_in_millions_of_year integer,
-    satellites_number integer,
+    cosmic_distance integer,
+    radius integer,
     density numeric,
     description text,
     has_life boolean,
@@ -131,7 +131,7 @@ ALTER SEQUENCE public.moon_moon_id_seq OWNED BY public.moon.moon_id;
 CREATE TABLE public.planet (
     planet_id integer NOT NULL,
     name character varying(25) NOT NULL,
-    age_in_millions_of_year integer,
+    cosmic_distance integer,
     satellites_number integer,
     density numeric,
     description text,
@@ -250,6 +250,21 @@ INSERT INTO public.galaxy VALUES (6, 'Andrómeda XIX', 3, 50, 524.255, 'Galaxia 
 -- Data for Name: moon; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.moon VALUES (1, 'La Luna', 356, 384, 3.34, 'Único satélite natural de la Tierra', true, true, 3);
+INSERT INTO public.moon VALUES (2, 'Fobos', 556, 9377, 1.85, 'Satélite natural de Marte', false, true, 4);
+INSERT INTO public.moon VALUES (3, 'Deimos', 556, 23460, 2.2, 'Satélite natural pequeño de Marte', false, true, 4);
+INSERT INTO public.moon VALUES (4, 'Luna exoplanetaria', 25856, 23460, 7.2, 'Satélite del Exoplaneta', false, true, 1);
+INSERT INTO public.moon VALUES (5, 'Luna Mercurio', 25856, 23460, 7.2, 'Luna inventada de Mercurio', false, true, 2);
+INSERT INTO public.moon VALUES (6, 'Luna exoplanetaria 2', 35356, 23130, 3.1, 'Luna de la galaxia triangular', false, true, 5);
+INSERT INTO public.moon VALUES (7, 'Luna inventada Venus', 321, 3130, 4.7, 'Luna inventada de Venus', false, true, 6);
+INSERT INTO public.moon VALUES (8, 'Ío', 721, 421, 3.55, 'Satélite más cercano a Júpiter', false, true, 7);
+INSERT INTO public.moon VALUES (9, 'Europa', 721, 670, 3.013, 'Satélite galileano más pequeño de Júpiter', false, true, 7);
+INSERT INTO public.moon VALUES (10, 'Ganimedes', 721, 1007, 1.936, 'Satélite más grande de Júpiter', false, true, 7);
+INSERT INTO public.moon VALUES (11, 'Calisto', 721, 1883, 1.834, 'Segundo satélite más grande de Júpiter', false, true, 7);
+INSERT INTO public.moon VALUES (12, 'Encélado', 950, 238, 1.609, 'Sexto satélite más grande de Saturno', false, true, 8);
+INSERT INTO public.moon VALUES (13, 'Titán', 950, 2574, 1.88, 'Satélite más grande de Saturno', false, true, 8);
+INSERT INTO public.moon VALUES (14, 'Calypso', 950, 574, 3.58, 'Satélite pequeño de Saturno', false, true, 8);
+INSERT INTO public.moon VALUES (15, 'Ariel', 1234, 224, 1.524, 'Satélite pequeño de Urano', false, true, 9);
 
 
 --
@@ -257,11 +272,18 @@ INSERT INTO public.galaxy VALUES (6, 'Andrómeda XIX', 3, 50, 524.255, 'Galaxia 
 --
 
 INSERT INTO public.planet VALUES (1, 'Exoplaneta', 20, 7, 73.255, 'Exoplaneta de Andrómeda', false, false, 1);
-INSERT INTO public.planet VALUES (2, 'Mercurio', 20, 7, 73.255, 'Primer planeta del Sistema Solar de la Vía Láctea', false, true, 2);
-INSERT INTO public.planet VALUES (4, 'Marte', 30, 7, 83.255, 'Cuarto planeta del Sistema Solar de la Vía Láctea', false, true, 2);
-INSERT INTO public.planet VALUES (3, 'La Tierra', 30, 7, 83.255, 'Tercer planeta del Sistema Solar de la Vía Láctea', true, true, 2);
 INSERT INTO public.planet VALUES (5, 'Exoplaneta', 30, 7, 83.255, 'Planeta inventado para la Galaxia Triangular', false, true, 3);
-INSERT INTO public.planet VALUES (6, 'Venus', 10, 2, 103.255, 'Segundo planeta del Sistema Solar de la Vía Láctea', false, true, 2);
+INSERT INTO public.planet VALUES (3, 'La Tierra', 0, 4551, 5.515, 'Tercer planeta del Sistema Solar de la Vía Láctea', true, true, 2);
+INSERT INTO public.planet VALUES (6, 'Venus', 261, 0, 5.24, 'Segundo planeta del Sistema Solar de la Vía Láctea', false, true, 2);
+INSERT INTO public.planet VALUES (2, 'Mercurio', 82, 0, 5.43, 'Primer planeta del Sistema Solar de la Vía Láctea', false, true, 2);
+INSERT INTO public.planet VALUES (4, 'Marte', 55, 2, 3.93, 'Cuarto planeta del Sistema Solar de la Vía Láctea', false, true, 2);
+INSERT INTO public.planet VALUES (7, 'Júpiter', 588, 92, 1336.00, 'Quinto planeta del Sistema Solar', false, true, 2);
+INSERT INTO public.planet VALUES (8, 'Saturno', 1195, 83, 690.00, 'Sexto planeta del Sistema Solar', false, true, 2);
+INSERT INTO public.planet VALUES (9, 'Urano', 2600, 27, 1.274, 'Séptimo planeta del Sistema Solar', false, true, 2);
+INSERT INTO public.planet VALUES (10, 'Neptuno', 4300, 14, 1.64, 'Octavo planeta del Sistema Solar', false, true, 2);
+INSERT INTO public.planet VALUES (11, 'Planeta Enano', 8000, 40, 45.05, 'Planeta de la galaxia Enana del Can Mayor', false, true, 4);
+INSERT INTO public.planet VALUES (12, 'Planeta de Wilman', 8000, 40, 45.05, 'Planeta de la galaxia Wilman 1', false, true, 5);
+INSERT INTO public.planet VALUES (13, 'Planeta Andromediano', 12000, 20, 15.05, 'Planeta de la galaxia Andrómeda XIX', false, true, 6);
 
 
 --
@@ -269,8 +291,11 @@ INSERT INTO public.planet VALUES (6, 'Venus', 10, 2, 103.255, 'Segundo planeta d
 --
 
 INSERT INTO public.star VALUES (1, 'Estrella inventada', 5, 3, 23.255, 'Estrella de Andrómeda', false, false, 1);
-INSERT INTO public.star VALUES (2, 'Estrella Vía Láctea', 5, 3, 23.255, 'Estrella de Vía Láctea', false, false, 2);
 INSERT INTO public.star VALUES (3, 'Estrella Triángulo', 7, 3, 63.255, 'Estrella de Triángulo', false, false, 3);
+INSERT INTO public.star VALUES (4, 'Estrella cuadrada', 1, 2, 45.98, 'Estrella de la galaxia Enana del Can Mayor', false, false, 4);
+INSERT INTO public.star VALUES (5, 'Estrella wilmaniense', 2, 1, 145.98, 'Estrella de la galaxia Willman 1', false, false, 5);
+INSERT INTO public.star VALUES (6, 'Estrella andromedána', 5, 1, 2145.58, 'Estrella de la galaxia Andrómeda XIX', false, true, 6);
+INSERT INTO public.star VALUES (2, 'Sol', 5, 3, 23.255, 'Estrella de Vía Láctea', false, false, 2);
 
 
 --

@@ -166,6 +166,41 @@ ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
 
 
 --
+-- Name: ring; Type: TABLE; Schema: public; Owner: freecodecamp
+--
+
+CREATE TABLE public.ring (
+    ring_id integer NOT NULL,
+    name character varying(20) NOT NULL,
+    planet_id integer NOT NULL
+);
+
+
+ALTER TABLE public.ring OWNER TO freecodecamp;
+
+--
+-- Name: ring_ring_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.ring_ring_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.ring_ring_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: ring_ring_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.ring_ring_id_seq OWNED BY public.ring.ring_id;
+
+
+--
 -- Name: star; Type: TABLE; Schema: public; Owner: freecodecamp
 --
 
@@ -228,6 +263,13 @@ ALTER TABLE ONLY public.planet ALTER COLUMN planet_id SET DEFAULT nextval('publi
 
 
 --
+-- Name: ring ring_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.ring ALTER COLUMN ring_id SET DEFAULT nextval('public.ring_ring_id_seq'::regclass);
+
+
+--
 -- Name: star star_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
@@ -265,6 +307,11 @@ INSERT INTO public.moon VALUES (12, 'Encélado', 950, 238, 1.609, 'Sexto satéli
 INSERT INTO public.moon VALUES (13, 'Titán', 950, 2574, 1.88, 'Satélite más grande de Saturno', false, true, 8);
 INSERT INTO public.moon VALUES (14, 'Calypso', 950, 574, 3.58, 'Satélite pequeño de Saturno', false, true, 8);
 INSERT INTO public.moon VALUES (15, 'Ariel', 1234, 224, 1.524, 'Satélite pequeño de Urano', false, true, 9);
+INSERT INTO public.moon VALUES (16, 'Galatea', 3475, 458, 2.48, 'Satélite confirmado de Neptuno', false, true, 10);
+INSERT INTO public.moon VALUES (17, 'Triton', 3475, 852, 1.22, 'Satélite de Neptuno con hielo nitrogenado', false, true, 10);
+INSERT INTO public.moon VALUES (18, 'Luna Enana', 6317, 221, 1.67, 'Satélite del planeta Enano', false, true, 11);
+INSERT INTO public.moon VALUES (19, 'Luna Wilmaniense', 9114, 324, 1.59, 'Satélite del planeta Wilman', false, true, 12);
+INSERT INTO public.moon VALUES (20, 'Luna Andromediana', 12487, 875, 5.32, 'Satélite del planeta Andromediano', false, true, 13);
 
 
 --
@@ -284,6 +331,12 @@ INSERT INTO public.planet VALUES (10, 'Neptuno', 4300, 14, 1.64, 'Octavo planeta
 INSERT INTO public.planet VALUES (11, 'Planeta Enano', 8000, 40, 45.05, 'Planeta de la galaxia Enana del Can Mayor', false, true, 4);
 INSERT INTO public.planet VALUES (12, 'Planeta de Wilman', 8000, 40, 45.05, 'Planeta de la galaxia Wilman 1', false, true, 5);
 INSERT INTO public.planet VALUES (13, 'Planeta Andromediano', 12000, 20, 15.05, 'Planeta de la galaxia Andrómeda XIX', false, true, 6);
+
+
+--
+-- Data for Name: ring; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
 
 
 --
@@ -317,6 +370,13 @@ SELECT pg_catalog.setval('public.moon_moon_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.planet_planet_id_seq', 1, false);
+
+
+--
+-- Name: ring_ring_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.ring_ring_id_seq', 1, false);
 
 
 --
@@ -356,6 +416,22 @@ ALTER TABLE ONLY public.planet
 
 ALTER TABLE ONLY public.planet
     ADD CONSTRAINT planet_unique_id UNIQUE (planet_id);
+
+
+--
+-- Name: ring ring_pk; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.ring
+    ADD CONSTRAINT ring_pk PRIMARY KEY (ring_id);
+
+
+--
+-- Name: ring ring_ring_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.ring
+    ADD CONSTRAINT ring_ring_id_key UNIQUE (ring_id);
 
 
 --

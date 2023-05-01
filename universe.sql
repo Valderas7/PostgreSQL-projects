@@ -337,6 +337,10 @@ INSERT INTO public.planet VALUES (13, 'Planeta Andromediano', 12000, 20, 15.05, 
 -- Data for Name: ring; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.ring VALUES (1, 'Anillo de Júpiter', 7);
+INSERT INTO public.ring VALUES (2, 'Anillo de Saturno', 8);
+INSERT INTO public.ring VALUES (3, 'Anillo de Urano', 9);
+INSERT INTO public.ring VALUES (4, 'Anillo de Neptuno', 10);
 
 
 --

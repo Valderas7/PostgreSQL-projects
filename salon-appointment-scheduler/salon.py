@@ -42,22 +42,22 @@ while 1:
         print("\nI could not find that service. What would you like today?")
 
     # En caso contrario, se pregunta por el número de teléfono y se consulta la base de datos para encontrar
-    # al cliente con dicho número de teléfono
+    # el ID del cliente con dicho número de teléfono
     else:
         print("\nWhat's your phone number?")
         CUSTOMER_PHONE = input()
-        phone_query = cursor.execute('SELECT customer_id FROM customers WHERE phone = %s', (CUSTOMER_PHONE, ))
+        id_query = cursor.execute('SELECT customer_id FROM customers WHERE phone = %s', (CUSTOMER_PHONE, ))
 
-        # Si se encuentra el nombre se guarda en la variable, y si no se encuentra, la variable vale 'None'
+        # Si se encuentra el ID se guarda en la variable, y si no se encuentra, la variable vale 'None'
         try:
-            name = cursor.fetchone()[0]
+            id_customer = cursor.fetchone()[0]
         except:
-            name = None
+            id_customer = None
 
         # Si no se encuentra ID del cliente una vez el teléfono es dado, se muestra por pantalla el mensaje de
         # error y se pregunta por el nombre al cliente, para insertar tanto el teléfono como el nombre del
         # nuevo cliente en la base de datos
-        if name is None:
+        if id_customer is None:
             print("\nI don't have a record for that phone number, what's your name?")
             CUSTOMER_NAME = input()
             insert_name = cursor.execute('INSERT INTO customers (phone, name) VALUES (%s, %s)',
@@ -65,3 +65,49 @@ while 1:
 
             # Se confirma la inserción de valores
             conn.commit()
+
+            # Si la inserción del teléfono y el nombre han sido correctas, entonces se intenta consultar el ID
+            # de nuevo en la base de datos
+            if insert_name is None:
+                id_query = cursor.execute('SELECT customer_id FROM customers WHERE phone = %s',
+                                          (CUSTOMER_PHONE,))
+
+                # Una vez se consulta el ID del nuevo cliente, se guarda en la variable de abajo
+                id_customer = cursor.fetchone()[0]
+
+                # Una vez reconocido el cliente se pregunta por la hora en la que se desea la cita y se
+                # inserta en la tabla de 'appointments'
+                print("\nWhat time would you like your {}, {}?".format(service, CUSTOMER_NAME))
+                SERVICE_TIME = input()
+                insert_appointment = cursor.execute('INSERT INTO appointments (customer_id, service_id, time) '
+                                                    'VALUES (%s, %s, %s)', (id_customer, SERVICE_ID_SELECTED,
+                                                                            SERVICE_TIME))
+
+                # Se confirma la inserción de valores
+                conn.commit()
+
+                # Si la inserción de la cita ha sido correcta, entonces se muestra el mensaje de la cita por
+                # pantalla
+                if insert_appointment is None:
+                    print("")
+
+
+"""
+
+          echo -e "\nI have put you down for a $(echo $SERVICE_NAME | sed 's/ //g') at $SERVICE_TIME, $CUSTOMER_NAME."
+        fi
+      fi
+    else
+      GET_CUSTOMER_NAME=$($PSQL "SELECT name FROM customers WHERE customer_id='$CUSTOMER_ID'")
+      echo -e "\nWhat time would you like your $(echo $SERVICE_NAME | sed 's/ //g'), $(echo $GET_CUSTOMER_NAME | sed 's/ //g')?"
+      read SERVICE_TIME
+
+      INSERT_APPOINTMENT=$($PSQL "INSERT INTO appointments(customer_id, service_id, time) VALUES($CUSTOMER_ID, $SERVICE_ID_SELECTED, '$SERVICE_TIME')")
+      if [[ $INSERT_APPOINTMENT == "INSERT 0 1" ]]
+      then
+        echo -e "\nI have put you down for a $(echo $SERVICE_NAME | sed 's/ //g') at $SERVICE_TIME, $(echo $GET_CUSTOMER_NAME | sed 's/ //g')."
+      fi
+    fi
+  fi
+}
+"""

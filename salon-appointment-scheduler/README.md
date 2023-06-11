@@ -12,8 +12,8 @@ Estos son todos los requisitos completados para terminar el proyecto:
 > - [x] Your `customers` table should have `phone` that is a `VARCHAR` and must be unique
 > - [x] Your `customers` and `services` tables should have a `name` column
 > - [x] Your `appointments` table should have a `time` column that is a `VARCHAR`
-> - You should have at least three rows in your `services` table for the different services you offer, one with a `service_id` of 1
-> - You should create a script file named `salon.sh` in the `project` folder
+> - [x] You should have at least three rows in your `services` table for the different services you offer, one with a `service_id` of 1
+> - [x] You should create a script file named `salon.sh`
 > - You should display a numbered list of the services you offer before the first prompt for input, each with the format `#) <service>`. For example, `1) cut`, where `1` is the `service_id`
 > - If you pick a service that doesn't exist, you should be shown the same list of services again
 > - Your script should prompt users to enter a `service_id`, `phone number`, a `name` if they aren’t already a customer, and a `time`. You should use `read` to read these inputs into variables named `SERVICE_ID_SELECTED`, `CUSTOMER_PHONE`, `CUSTOMER_NAME`, and `SERVICE_TIME`

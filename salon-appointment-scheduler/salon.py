@@ -6,7 +6,7 @@ import psycopg2
 conn = psycopg2.connect(database = "salon",
                         host = "127.0.0.1",
                         user = "valderas",
-                        password = "jonmamon",
+                        password = "********",
                         port = "5432")
 
 # Ejecutar consultas en la base de datos conectada
@@ -29,28 +29,39 @@ while 1:
     # Se pregunta por el servicio que se quiere solicitar
     SERVICE_ID_SELECTED = input()
     services_query = cursor.execute('SELECT name FROM services WHERE service_id = %s', SERVICE_ID_SELECTED)
+
+    # Si se encuentra el servicio se guarda en la variable, y si no se encuentra, la variable vale 'None
     try:
         service = cursor.fetchone()[0]
     except:
         service = None
 
-    # Si el servicio solicitado no se encuentra presente, se muestra por pantalla
+    # Si el servicio solicitado no se encuentra presente, se muestra por pantalla el mensaje de error y se
+    # imprime de nuevo el menú
     if service is None:
         print("\nI could not find that service. What would you like today?")
 
-    # Se itera sobre cada fila del 'dataframe' y se consulta la tabla 'teams', para poder recopilar los 'team_id'
-# de los equipos ganadores y perdedores de cada fila, para poder insertarlos posteriormente en la tabla 'games'
-for index, row in data.iterrows():
-    winner_query = cursor.execute('SELECT team_id FROM teams WHERE name = %s', (row['winner'],))
-    winner_id = cursor.fetchall()
+    # En caso contrario, se pregunta por el número de teléfono y se consulta la base de datos para encontrar
+    # al cliente con dicho número de teléfono
+    else:
+        print("\nWhat's your phone number?")
+        CUSTOMER_PHONE = input()
+        phone_query = cursor.execute('SELECT customer_id FROM customers WHERE phone = %s', (CUSTOMER_PHONE, ))
 
-    loser_query = cursor.execute('SELECT team_id FROM teams WHERE name = %s', (row['opponent'],))
-    loser_id = cursor.fetchall()
+        # Si se encuentra el nombre se guarda en la variable, y si no se encuentra, la variable vale 'None'
+        try:
+            name = cursor.fetchone()[0]
+        except:
+            name = None
 
-    cursor.execute('INSERT INTO games (game_id, year, round, winner_id, opponent_id, winner_goals, opponent_goals) '
-                   'VALUES (%s, %s, %s, %s, %s, %s, %s)', (index + 1, row['year'], row['round'], winner_id[0],
-                                                           loser_id[0], row['winner_goals'],
-                                                           row['opponent_goals']))
+        # Si no se encuentra ID del cliente una vez el teléfono es dado, se muestra por pantalla el mensaje de
+        # error y se pregunta por el nombre al cliente, para insertar tanto el teléfono como el nombre del
+        # nuevo cliente en la base de datos
+        if name is None:
+            print("\nI don't have a record for that phone number, what's your name?")
+            CUSTOMER_NAME = input()
+            insert_name = cursor.execute('INSERT INTO customers (phone, name) VALUES (%s, %s)',
+                                         (CUSTOMER_PHONE, CUSTOMER_NAME))
 
-#Se confirma la última transacción realizada para que aparezca en la base de datos la consulta realizada
-conn.commit()
+            # Se confirma la inserción de valores
+            conn.commit()

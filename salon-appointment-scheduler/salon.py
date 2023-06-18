@@ -6,7 +6,7 @@ import psycopg2
 conn = psycopg2.connect(database = "salon",
                         host = "127.0.0.1",
                         user = "valderas",
-                        password = "jonmamon",
+                        password = "********",
                         port = "5432")
 
 # Ejecutar consultas en la base de datos conectada

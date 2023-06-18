@@ -6,7 +6,7 @@ import psycopg2
 conn = psycopg2.connect(database = "salon",
                         host = "127.0.0.1",
                         user = "valderas",
-                        password = "********",
+                        password = "jonmamon",
                         port = "5432")
 
 # Ejecutar consultas en la base de datos conectada
@@ -55,8 +55,8 @@ while 1:
         except:
             id_customer = None
 
-        # Si no se encuentra ID del cliente una vez el teléfono es dado, se muestra por pantalla el mensaje de
-        # error y se pregunta por el nombre al cliente, para insertar tanto el teléfono como el nombre del
+        # Si no se encuentra ID del cliente una vez el teléfono es dado, se muestra por pantalla el mensaje
+        # de error y se pregunta por el nombre al cliente, para insertar tanto el teléfono como el nombre del
         # nuevo cliente en la tabla 'customers' de la base de datos
         if id_customer is None:
             print("\nI don't have a record for that phone number, what's your name?")
@@ -64,11 +64,11 @@ while 1:
             insert_name = cursor.execute('INSERT INTO customers (phone, name) VALUES (%s, %s)',
                                          (CUSTOMER_PHONE, CUSTOMER_NAME))
 
-            # Se confirma la inserción de valores
+            # Se confirma la inserción de valores con Psycopg2
             conn.commit()
 
-            # Si la inserción del teléfono y el nombre han sido correctas, entonces se intenta consultar el ID
-            # de nuevo en la base de datos
+            # Si la inserción del teléfono y el nombre han sido correctas, entonces se intenta consultar el
+            # ID de nuevo en la base de datos
             if insert_name is None:
                 id_query = cursor.execute('SELECT customer_id FROM customers WHERE phone = %s',
                                           (CUSTOMER_PHONE,))
@@ -84,7 +84,7 @@ while 1:
                                                     'VALUES (%s, %s, %s)', (id_customer, SERVICE_ID_SELECTED,
                                                                             SERVICE_TIME))
 
-                # Se confirma la inserción de valores
+                # Se confirma la inserción de valores con Psycopg2
                 conn.commit()
 
                 # Si la inserción de la cita ha sido correcta, entonces se muestra el mensaje de la cita por
@@ -92,6 +92,8 @@ while 1:
                 if insert_appointment is None:
                     print("\nI have put you down for a {} at {}, {}.\n".format(service, SERVICE_TIME,
                                                                            CUSTOMER_NAME))
+                    # Se da la bienvenida a un nuevo cliente
+                    print("~~~~~ MY SALON ~~~~~\n\nWelcome to My Salon, how can I help you?\n")
 
         # En este bucle, es que el 'ID' del cliente si se encontró al preguntar el teléfono. En este caso,
         # se consulta el nombre en la tabla 'customers' que coincide con el 'ID' del cliente
@@ -110,7 +112,7 @@ while 1:
                                                 'VALUES (%s, %s, %s)', (id_customer, SERVICE_ID_SELECTED,
                                                                         SERVICE_TIME))
 
-            # Se confirma la inserción de valores
+            # Se confirma la inserción de valores con Psycopg2
             conn.commit()
 
             # Si la inserción de la cita ha sido correcta, entonces se muestra el mensaje de la cita por
@@ -118,3 +120,6 @@ while 1:
             if insert_appointment is None:
                 print("\nI have put you down for a {} at {}, {}.\n".format(service, SERVICE_TIME,
                                                                          CUSTOMER_NAME))
+
+                # Se da la bienvenida a un nuevo cliente
+                print("~~~~~ MY SALON ~~~~~\n\nWelcome to My Salon, how can I help you?\n")
